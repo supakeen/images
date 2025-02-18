@@ -162,13 +162,13 @@
   "./configs/iot-ostree-pull-empty.json": {
     "image-types": [
       "iot-installer",
-      "iot-qcow2-image",
-      "iot-raw-image"
+      "iot-qcow2",
+      "iot-raw-xz"
     ]
   },
   "./configs/iot-ostree-pull-user.json": {
     "image-types": [
-      "iot-qcow2-image"
+      "iot-qcow2"
     ]
   },
   "./configs/kernel-debug.json": {
@@ -181,7 +181,7 @@
       "fedora*"
     ],
     "image-types": [
-      "qcow2"
+      "server-qcow2"
     ]
   },
   "./configs/minimal.json": {
@@ -189,7 +189,7 @@
       "fedora*"
     ],
     "image-types": [
-      "qcow2"
+      "server-qcow2"
     ]
   },
   "./configs/oscap-generic.json": {
@@ -317,7 +317,7 @@
   },
   "./configs/import-rpm-gpg-keys-from-tree-fedora.json": {
     "image-types": [
-      "qcow2"
+      "server-qcow2"
     ],
     "distros": [
       "fedora*"
@@ -347,7 +347,7 @@
   },
   "./configs/partitioning-btrfs.json": {
     "image-types": [
-      "ami"
+      "server-ami"
     ],
     "distros": [
       "fedora*"
