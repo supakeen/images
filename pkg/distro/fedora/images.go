@@ -403,8 +403,14 @@ func liveInstallerImage(workload workload.Workload,
 
 	img.Filename = t.Filename()
 
-	if common.VersionGreaterThanOrEqual(img.OSVersion, VERSION_ROOTFS_SQUASHFS) {
+	if common.VersionGreaterThanOrEqual(img.OSVersion, VERSION_ROOTFS_EROFS) {
+		img.RootfsCompression = "lzma"
+		img.RootfsType = manifest.ErofsRootfs
+	} else if common.VersionGreaterThanOrEqual(img.OSVersion, VERSION_ROOTFS_SQUASHFS) {
+		img.RootfsCompression = "lz4"
 		img.RootfsType = manifest.SquashfsRootfs
+	} else {
+		img.RootfsCompression = "lz4"
 	}
 
 	if locale := t.getDefaultImageConfig().Locale; locale != nil {
@@ -483,9 +489,14 @@ func imageInstallerImage(workload workload.Workload,
 
 	img.Filename = t.Filename()
 
-	img.RootfsCompression = "lz4"
-	if common.VersionGreaterThanOrEqual(img.OSVersion, VERSION_ROOTFS_SQUASHFS) {
+	if common.VersionGreaterThanOrEqual(img.OSVersion, VERSION_ROOTFS_EROFS) {
+		img.RootfsCompression = "lzma"
+		img.RootfsType = manifest.ErofsRootfs
+	} else if common.VersionGreaterThanOrEqual(img.OSVersion, VERSION_ROOTFS_SQUASHFS) {
+		img.RootfsCompression = "lz4"
 		img.RootfsType = manifest.SquashfsRootfs
+	} else {
+		img.RootfsCompression = "lz4"
 	}
 
 	return img, nil
@@ -684,9 +695,14 @@ func iotInstallerImage(workload workload.Workload,
 
 	img.Filename = t.Filename()
 
-	img.RootfsCompression = "lz4"
-	if common.VersionGreaterThanOrEqual(img.OSVersion, VERSION_ROOTFS_SQUASHFS) {
+	if common.VersionGreaterThanOrEqual(img.OSVersion, VERSION_ROOTFS_EROFS) {
+		img.RootfsCompression = "lzma"
+		img.RootfsType = manifest.ErofsRootfs
+	} else if common.VersionGreaterThanOrEqual(img.OSVersion, VERSION_ROOTFS_SQUASHFS) {
+		img.RootfsCompression = "lz4"
 		img.RootfsType = manifest.SquashfsRootfs
+	} else {
+		img.RootfsCompression = "lz4"
 	}
 
 	if locale := t.getDefaultImageConfig().Locale; locale != nil {
