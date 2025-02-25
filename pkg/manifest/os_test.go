@@ -278,3 +278,21 @@ func TestModularityDoesNotIncludeConfigStage(t *testing.T) {
 	st := findStage("org.osbuild.dnf.module-config", pipeline.Stages)
 	require.Nil(t, st)
 }
+
+func TestLanguageIncludesLocaleStage(t *testing.T) {
+	os := NewTestOS()
+
+	os.Language = "en_US.UTF-8"
+
+	pipeline := os.serialize()
+	st := findStage("org.osbuild.locale", pipeline.Stages)
+	require.NotNil(t, st)
+}
+
+func TestLanguageDoesNotIncludeLocaleStage(t *testing.T) {
+	os := NewTestOS()
+
+	pipeline := os.serialize()
+	st := findStage("org.osbuild.locale", pipeline.Stages)
+	require.Nil(t, st)
+}
