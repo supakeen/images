@@ -120,7 +120,7 @@ func (lv *LVCustomization) UnmarshalJSON(data []byte) error {
 	lv.FilesystemTypedCustomization = lvAnySize.FilesystemTypedCustomization
 
 	if lvAnySize.MinSize == nil {
-		return fmt.Errorf("minsize is required")
+		lvAnySize.MinSize = "0"
 	}
 	size, err := decodeSize(lvAnySize.MinSize)
 	if err != nil {
@@ -186,7 +186,7 @@ func (v *PartitionCustomization) UnmarshalJSON(data []byte) error {
 	v.Type = partType
 
 	if typeSniffer.MinSize == nil {
-		return fmt.Errorf("minsize is required")
+		typeSniffer.MinSize = "0"
 	}
 
 	minsize, err := decodeSize(typeSniffer.MinSize)
@@ -313,7 +313,7 @@ func (v *PartitionCustomization) UnmarshalTOML(data any) error {
 
 	minsizeField, ok := d["minsize"]
 	if !ok {
-		return fmt.Errorf("minsize is required")
+		minsizeField = "0"
 	}
 	minsize, err := decodeSize(minsizeField)
 	if err != nil {
