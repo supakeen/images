@@ -1075,6 +1075,34 @@ image_types:
       no_selinux: true
       wsl_config:
         boot_systemd: true
+      # We need to write some files, these files are normally provided by
+      # the `wsl-setup` package. We're working on landing that package in
+      # RHEL and CentOS, for now we will manually write these files.
+      #
+      # Note that we skip writing `/etc/wsl.conf` as it's created by the
+      # `wsl_config` section above.
+      files:
+        - path: "/etc/wsl-distribution.conf"
+          mode: 0644
+          data: |
+            # The /etc/wsl-distribution.conf configuration file.
+            #
+            # This is not intended to be edited by users; it is how WSL discovers
+            # distribution defaults.
+            #
+            # Available configuration options are documented at
+            # https://learn.microsoft.com/en-us/windows/wsl/build-custom-distro
+            #
+            # Default UID for user the distribution starts with.
+            defaultUid = 1000
+            # Default name the distribution is registered under.
+            # This is used when the user double-clicks to install, or uses
+            # wsl --install --from-file ./Fedora.wsl
+            defaultName = DEFAULT_NAME
+
+            [shortcut]
+            enabled = true
+            icon = "/usr/share/pixmaps/fedora-logo.ico"
     package_sets:
       os:
         - include:
