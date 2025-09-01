@@ -1253,6 +1253,7 @@ image_config:
     update_default_kernel: true
     mounts:
       fstab: true
+      root_partition_kernel_arg: true
   conditions:
     "oscap needs a differnt path on centos":
       when:

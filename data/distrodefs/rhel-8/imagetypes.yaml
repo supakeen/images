@@ -1283,6 +1283,7 @@ image_config:
     update_default_kernel: true
     mounts:
       fstab: true
+      root_partition_kernel_arg: true
   conditions:
     "centos has a different oscap path":
       when:

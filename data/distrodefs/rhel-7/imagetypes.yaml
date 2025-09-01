@@ -257,6 +257,7 @@ image_config:
     install_weak_deps: true
     mounts:
       fstab: true
+      root_partition_kernel_arg: true
 
 image_types:
   "azure-rhui":

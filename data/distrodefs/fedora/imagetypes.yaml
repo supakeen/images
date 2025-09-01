@@ -841,6 +841,7 @@ image_config:
     timezone: "UTC"
     mounts:
       fstab: true
+      root_partition_kernel_arg: true
 
 image_types:
   "server-vagrant-libvirt": &server_vagrant_libvirt
@@ -1539,6 +1540,7 @@ image_types:
       install_weak_deps: false
       mounts:
         mount_units: true
+        root_partition_kernel_arg: true
       machine_id_uninitialized: false
       enabled_services:
         - "NetworkManager.service"
@@ -1555,6 +1557,7 @@ image_types:
             mounts:
               mount_units: false
               fstab: true
+              root_partition_kernel_arg: true
             enabled_services:
               - "NetworkManager.service"
               - "initial-setup.service"

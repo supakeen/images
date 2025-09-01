@@ -188,6 +188,10 @@ type OSCustomizations struct {
 	// Fstab creates /etc/fstab to describe the filesystem
 	Fstab bool
 
+	// RootPartitionKernelArg toggles appending root=UUID to the kernel command line.
+	// If root= is defined systemd's auto-gpt-generator does not run
+	RootPartitionKernelArg bool
+
 	// VersionlockPackges uses dnf versionlock to lock a package to the version
 	// that is installed during image build, preventing it from being updated.
 	// This is only supported for distributions that use dnf4, because osbuild
@@ -764,7 +768,11 @@ func (p *OS) serialize() osbuild.Pipeline {
 		case platform.BOOTLOADER_GRUB2:
 			pipeline.AddStage(grubStage(p, pt, kernelOptions))
 			if !p.OSCustomizations.KernelOptionsBootloader {
-				pipeline = prependKernelCmdlineStage(pipeline, rootUUID, kernelOptions)
+				if p.OSCustomizations.RootPartitionKernelArg {
+					pipeline = prependKernelCmdlineStage(pipeline, rootUUID, kernelOptions)
+				} else {
+					pipeline = prependKernelCmdlineStage(pipeline, "", kernelOptions)
+				}
 			}
 		case platform.BOOTLOADER_ZIPL:
 			pipeline.AddStage(osbuild.NewZiplStage(new(osbuild.ZiplStageOptions)))

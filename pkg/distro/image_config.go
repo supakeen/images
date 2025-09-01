@@ -183,6 +183,11 @@ type MountConfig struct {
 
 	// MountUnits creates systemd .mount units to describe the filesystem
 	MountUnits *bool `yaml:"mount_units,omitempty"`
+
+	// RootPartitionKernelArg determines if a `root=UUID` kernel argument is added
+	// for the root partition. When this is set to yes systemd's auto-gpt-generator
+	// is skipped.
+	RootPartitionKernelArg *bool `yaml:"root_partition_kernel_arg,omitempty"`
 }
 
 // InheritFrom inherits unset values from the provided parent configuration and

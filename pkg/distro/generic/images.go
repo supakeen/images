@@ -326,6 +326,10 @@ func osCustomizations(t *imageType, osPackageSet rpmmd.PackageSet, options distr
 		if mountConfig.Fstab != nil {
 			osc.Fstab = *mountConfig.Fstab
 		}
+
+		if mountConfig.RootPartitionKernelArg != nil {
+			osc.RootPartitionKernelArg = *mountConfig.RootPartitionKernelArg
+		}
 	}
 
 	osc.VersionlockPackages = imageConfig.VersionlockPackages
