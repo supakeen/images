@@ -310,6 +310,7 @@ func TestOSPipelineFStabStage(t *testing.T) {
 
 	os.PartitionTable = testdisk.MakeFakePartitionTable("/") // PT specifics don't matter
 	os.OSCustomizations.MountUnits = false                   // set it explicitly just to be sure
+	os.OSCustomizations.Fstab = true
 
 	checkStagesForFSTab(t, os.Serialize().Stages)
 }

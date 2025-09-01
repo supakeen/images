@@ -47,6 +47,7 @@ func TestOSTreeDeploymentPipelineFStabStage(t *testing.T) {
 
 	pipeline.PartitionTable = testdisk.MakeFakePartitionTable("/") // PT specifics don't matter
 	pipeline.MountUnits = false                                    // set it explicitly just to be sure
+	pipeline.Fstab = true
 
 	checkStagesForFSTab(t, manifest.SerializeWith(pipeline, testCommitInputs()).Stages)
 }

@@ -839,6 +839,8 @@ image_config:
     locale: "C.UTF-8"
     machine_id_uninitialized: true
     timezone: "UTC"
+    mounts:
+      fstab: true
 
 image_types:
   "server-vagrant-libvirt": &server_vagrant_libvirt
@@ -1552,6 +1554,7 @@ image_types:
             install_weak_deps: true
             mounts:
               mount_units: false
+              fstab: true
             enabled_services:
               - "NetworkManager.service"
               - "initial-setup.service"

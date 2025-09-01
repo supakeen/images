@@ -1281,6 +1281,8 @@ image_config:
       no_zero_conf: true
     timezone: "America/New_York"
     update_default_kernel: true
+    mounts:
+      fstab: true
   conditions:
     "centos has a different oscap path":
       when:

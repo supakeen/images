@@ -255,6 +255,8 @@ image_config:
     # RHEL 7 grub does not support BLS
     no_bls: true
     install_weak_deps: true
+    mounts:
+      fstab: true
 
 image_types:
   "azure-rhui":

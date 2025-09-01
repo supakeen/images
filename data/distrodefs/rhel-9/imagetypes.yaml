@@ -1251,6 +1251,8 @@ image_config:
       no_zero_conf: true
     timezone: "America/New_York"
     update_default_kernel: true
+    mounts:
+      fstab: true
   conditions:
     "oscap needs a differnt path on centos":
       when:
@@ -2499,6 +2501,8 @@ image_types:
         # only on rhel-9.2+ and centos
         - "ignition-firstboot-complete.service"
         - "coreos-ignition-write-issues.service"
+      mounts:
+        fstab: true
       conditions: &conditions_edge_commit_image_config
         "rhel-9.1 and below do not have ignition":
           when:

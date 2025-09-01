@@ -777,6 +777,8 @@ image_config:
       no_zero_conf: true
     timezone: "UTC"
     update_default_kernel: true
+    mounts:
+      fstab: true
   conditions:
     "centos oscap datastream path":
       when:

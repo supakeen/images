@@ -349,6 +349,7 @@ func TestRawBootcPipelineFSTabStage(t *testing.T) {
 
 	pipeline.PartitionTable = testdisk.MakeFakePartitionTable("/", "/boot/efi") // PT requires /boot/efi
 	pipeline.MountUnits = false                                                 // set it explicitly just to be sure
+	pipeline.Fstab = true
 
 	checkStagesForFSTab(t, pipeline.Serialize().Stages)
 }

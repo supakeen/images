@@ -46,8 +46,10 @@ type RawBootcImage struct {
 	SELinux string
 
 	// MountUnits creates systemd .mount units to describe the filesystem
-	// instead of writing to /etc/fstab
 	MountUnits bool
+
+	// Fstab creates /etc/fstab to describe the filesystem
+	Fstab bool
 
 	// Source pipeline for files written to raw partitions
 	SourcePipeline string
@@ -176,7 +178,7 @@ func (p *RawBootcImage) serialize() osbuild.Pipeline {
 	mounts = append(mounts, *osbuild.NewOSTreeDeploymentMountDefault("ostree.deployment", osbuild.OSTreeMountSourceMount))
 	mounts = append(mounts, *osbuild.NewBindMount("bind-ostree-deployment-to-tree", "mount://", "tree://"))
 
-	fsCfgStages, err := filesystemConfigStages(pt, p.MountUnits)
+	fsCfgStages, err := filesystemConfigStages(pt, p.MountUnits, p.Fstab)
 	if err != nil {
 		panic(err)
 	}

@@ -5,18 +5,29 @@ import (
 	"github.com/osbuild/images/pkg/osbuild"
 )
 
-// filesystemConfigStages generates either an org.osbuild.fstab stage or a
-// collection of org.osbuild.systemd.unit.create stages for .mount and .swap
-// units (and an org.osbuild.systemd stage to enable them) depending on the
-// pipeline configuration.
-func filesystemConfigStages(pt *disk.PartitionTable, mountUnits bool) ([]*osbuild.Stage, error) {
+// filesystemConfigStages generates the org.osbuild.fstab stage,
+// org.osbuild.systemd.unit.create stages for .mount and .swap units
+// or no stages at all. The last option is used for images that want
+// to use `systemd-gpt-auto-generator` and thus need/want no overrides
+// in the form of mount units or an fstab.
+func filesystemConfigStages(pt *disk.PartitionTable, mountUnits, fstab bool) ([]*osbuild.Stage, error) {
+	stages := []*osbuild.Stage{}
+
 	if mountUnits {
-		return osbuild.GenSystemdMountStages(pt)
-	} else {
+		mountStages, err := osbuild.GenSystemdMountStages(pt)
+		if err != nil {
+			return nil, err
+		}
+		stages = append(stages, mountStages...)
+	}
+
+	if fstab {
 		opts, err := osbuild.NewFSTabStageOptions(pt)
 		if err != nil {
 			return nil, err
 		}
-		return []*osbuild.Stage{osbuild.NewFSTabStage(opts)}, nil
+		stages = append(stages, osbuild.NewFSTabStage(opts))
 	}
+
+	return stages, nil
 }

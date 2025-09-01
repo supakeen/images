@@ -322,6 +322,10 @@ func osCustomizations(t *imageType, osPackageSet rpmmd.PackageSet, options distr
 		if mountConfig.MountUnits != nil {
 			osc.MountUnits = *mountConfig.MountUnits
 		}
+
+		if mountConfig.Fstab != nil {
+			osc.Fstab = *mountConfig.Fstab
+		}
 	}
 
 	osc.VersionlockPackages = imageConfig.VersionlockPackages
@@ -447,6 +451,16 @@ func ostreeDeploymentCustomizations(
 
 	for _, fs := range c.GetFilesystems() {
 		deploymentConf.CustomFileSystems = append(deploymentConf.CustomFileSystems, fs.Mountpoint)
+	}
+
+	if mountConfig := imageConfig.MountConfig; mountConfig != nil {
+		if mountConfig.MountUnits != nil {
+			deploymentConf.MountUnits = *mountConfig.MountUnits
+		}
+
+		if mountConfig.Fstab != nil {
+			deploymentConf.Fstab = *mountConfig.Fstab
+		}
 	}
 
 	return deploymentConf, nil

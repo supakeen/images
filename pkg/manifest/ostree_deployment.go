@@ -44,8 +44,10 @@ type OSTreeDeploymentCustomizations struct {
 	LockRoot bool
 
 	// MountUnits creates systemd .mount units to describe the filesystem
-	// instead of writing to /etc/fstab
 	MountUnits bool
+
+	// Fstab creates /etc/fstab to describe the filesystem
+	Fstab bool
 }
 
 // OSTreeDeployment represents the filesystem tree of a target image based
@@ -343,7 +345,7 @@ func (p *OSTreeDeployment) serialize() osbuild.Pipeline {
 	configStage.MountOSTree(p.osName, ref, 0)
 	pipeline.AddStage(configStage)
 
-	fsCfgStages, err := filesystemConfigStages(p.PartitionTable, p.MountUnits)
+	fsCfgStages, err := filesystemConfigStages(p.PartitionTable, p.MountUnits, p.Fstab)
 	if err != nil {
 		panic(err)
 	}

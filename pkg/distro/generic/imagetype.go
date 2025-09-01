@@ -7,13 +7,11 @@ import (
 	"slices"
 
 	"github.com/osbuild/blueprint/pkg/blueprint"
-	"github.com/osbuild/images/internal/common"
 	"github.com/osbuild/images/pkg/container"
 	"github.com/osbuild/images/pkg/datasizes"
 	"github.com/osbuild/images/pkg/disk"
 	"github.com/osbuild/images/pkg/distro"
 	"github.com/osbuild/images/pkg/distro/defs"
-	"github.com/osbuild/images/pkg/experimentalflags"
 	"github.com/osbuild/images/pkg/image"
 	"github.com/osbuild/images/pkg/manifest"
 	"github.com/osbuild/images/pkg/platform"
@@ -256,16 +254,6 @@ func (t *imageType) Manifest(bp *blueprint.Blueprint,
 	}
 	installFromRepos := blueprint.RepoCustomizationsInstallFromOnly(customRepos)
 	payloadRepos = append(payloadRepos, installFromRepos...)
-
-	if experimentalflags.Bool("no-fstab") {
-		if t.ImageConfigYAML.ImageConfig != nil {
-			t.ImageConfigYAML.ImageConfig = &distro.ImageConfig{}
-		}
-
-		t.ImageConfigYAML.ImageConfig.MountConfig = &distro.MountConfig{
-			MountUnits: common.ToPtr(true),
-		}
-	}
 
 	containerSources := make([]container.SourceSpec, len(bp.Containers))
 	for idx, cont := range bp.Containers {

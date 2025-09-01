@@ -178,10 +178,10 @@ type DNFConfig struct {
 }
 
 type MountConfig struct {
-	// FsTab      *bool `yaml:"fstab,omitempty"`
+	// Determines if an `/etc/fstab` file is written to describe the filesystem
+	Fstab *bool `yaml:"fstab,omitempty"`
 
 	// MountUnits creates systemd .mount units to describe the filesystem
-	// instead of writing to /etc/fstab
 	MountUnits *bool `yaml:"mount_units,omitempty"`
 }
 

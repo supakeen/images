@@ -183,8 +183,10 @@ type OSCustomizations struct {
 	MachineIdUninitialized bool
 
 	// MountUnits creates systemd .mount units to describe the filesystem
-	// instead of writing to /etc/fstab
 	MountUnits bool
+
+	// Fstab creates /etc/fstab to describe the filesystem
+	Fstab bool
 
 	// VersionlockPackges uses dnf versionlock to lock a package to the version
 	// that is installed during image build, preventing it from being updated.
@@ -752,7 +754,7 @@ func (p *OS) serialize() osbuild.Pipeline {
 			}))
 		}
 
-		fsCfgStages, err := filesystemConfigStages(pt, p.OSCustomizations.MountUnits)
+		fsCfgStages, err := filesystemConfigStages(pt, p.OSCustomizations.MountUnits, p.OSCustomizations.Fstab)
 		if err != nil {
 			panic(err)
 		}
