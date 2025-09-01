@@ -302,7 +302,7 @@ func (p *OSTreeDeployment) serialize() osbuild.Pipeline {
 			},
 		},
 	}))
-	_, kernelOpts, err := osbuild.GenImageKernelOptions(p.PartitionTable, p.MountUnits)
+	_, kernelOpts, err := osbuild.GenImageKernelOptions(p.PartitionTable, p.MountUnits, p.Fstab)
 	if err != nil {
 		panic(err)
 	}

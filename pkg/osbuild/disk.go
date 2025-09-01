@@ -116,7 +116,7 @@ func GenImageFinishStages(pt *disk.PartitionTable, filename string) []*Stage {
 	return GenDeviceFinishStages(pt, filename)
 }
 
-func GenImageKernelOptions(pt *disk.PartitionTable, mountUnits bool) (string, []string, error) {
+func GenImageKernelOptions(pt *disk.PartitionTable, mountUnits, fstab bool) (string, []string, error) {
 	cmdline := make([]string, 0)
 
 	rootFs := pt.FindMountable("/")
@@ -130,7 +130,7 @@ func GenImageKernelOptions(pt *disk.PartitionTable, mountUnits bool) (string, []
 	// see:
 	//  - https://github.com/systemd/systemd/issues/24027
 	//  - https://github.com/systemd/systemd/pull/33397
-	if usrFs := pt.FindMountable("/usr"); usrFs != nil && mountUnits {
+	if usrFs := pt.FindMountable("/usr"); usrFs != nil && !fstab {
 		fsOptions, err := usrFs.GetFSTabOptions()
 		if err != nil {
 			panic(fmt.Sprintf("error getting filesystem options for /usr mountpoint: %s", err))

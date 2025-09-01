@@ -744,7 +744,7 @@ func (p *OS) serialize() osbuild.Pipeline {
 	}
 
 	if pt := p.PartitionTable; pt != nil {
-		rootUUID, kernelOptions, err := osbuild.GenImageKernelOptions(p.PartitionTable, p.OSCustomizations.MountUnits)
+		rootUUID, kernelOptions, err := osbuild.GenImageKernelOptions(p.PartitionTable, p.OSCustomizations.MountUnits, p.OSCustomizations.Fstab)
 		if err != nil {
 			panic(err)
 		}
