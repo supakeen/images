@@ -130,10 +130,6 @@ type ImageConfig struct {
 	// to be triggered in systemd
 	MachineIdUninitialized *bool `yaml:"machine_id_uninitialized,omitempty"`
 
-	// MountUnits creates systemd .mount units to describe the filesystem
-	// instead of writing to /etc/fstab
-	MountUnits *bool `yaml:"mount_units,omitempty"`
-
 	// Indicates if rhc should be set to permissive when creating the registration script
 	PermissiveRHC *bool `yaml:"permissive_rhc,omitempty"`
 
@@ -142,6 +138,9 @@ type ImageConfig struct {
 	// This is only supported for distributions that use dnf4, because osbuild
 	// only has a stage for dnf4 version locking.
 	VersionlockPackages []string `yaml:"versionlock_packages,omitempty"`
+
+	// Control how the resulting image performs and manages mountpoints
+	MountConfig *MountConfig `yaml:"mounts,omitempty"`
 }
 
 // shallowMerge creates a new struct by merging a child and a parent.
@@ -176,6 +175,14 @@ func shallowMerge[T any](child *T, parent *T) *T {
 type DNFConfig struct {
 	Options          []*osbuild.DNFConfigStageOptions
 	SetReleaseVerVar *bool `yaml:"set_release_ver_var"`
+}
+
+type MountConfig struct {
+	// FsTab      *bool `yaml:"fstab,omitempty"`
+
+	// MountUnits creates systemd .mount units to describe the filesystem
+	// instead of writing to /etc/fstab
+	MountUnits *bool `yaml:"mount_units,omitempty"`
 }
 
 // InheritFrom inherits unset values from the provided parent configuration and

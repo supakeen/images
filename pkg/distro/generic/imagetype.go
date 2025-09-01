@@ -261,7 +261,10 @@ func (t *imageType) Manifest(bp *blueprint.Blueprint,
 		if t.ImageConfigYAML.ImageConfig != nil {
 			t.ImageConfigYAML.ImageConfig = &distro.ImageConfig{}
 		}
-		t.ImageConfigYAML.ImageConfig.MountUnits = common.ToPtr(true)
+
+		t.ImageConfigYAML.ImageConfig.MountConfig = &distro.MountConfig{
+			MountUnits: common.ToPtr(true),
+		}
 	}
 
 	containerSources := make([]container.SourceSpec, len(bp.Containers))
