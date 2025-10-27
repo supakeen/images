@@ -19,7 +19,7 @@ import (
 	"time"
 
 	"github.com/gobwas/glob"
-	"gopkg.in/yaml.v3"
+	"github.com/goccy/go-yaml"
 
 	"github.com/osbuild/blueprint/pkg/blueprint"
 	"github.com/osbuild/images/internal/buildconfig"
@@ -623,7 +623,6 @@ func main() {
 		}
 		var fakeContainers fakeContainersYAML
 		dec := yaml.NewDecoder(f)
-		dec.KnownFields(true)
 		if err := dec.Decode(&fakeContainers); err != nil {
 			panic(err)
 		}

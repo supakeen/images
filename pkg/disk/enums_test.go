@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"testing"
 
+	"github.com/goccy/go-yaml"
 	"github.com/stretchr/testify/assert"
-	"gopkg.in/yaml.v3"
 
 	"github.com/osbuild/images/pkg/disk"
 )

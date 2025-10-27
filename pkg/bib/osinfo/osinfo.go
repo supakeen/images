@@ -8,8 +8,8 @@ import (
 	"path"
 	"strings"
 
+	"github.com/goccy/go-yaml"
 	"github.com/sirupsen/logrus"
-	"gopkg.in/yaml.v3"
 
 	"github.com/osbuild/blueprint/pkg/blueprint"
 	"github.com/osbuild/images/pkg/bib/blueprintload"
@@ -149,7 +149,8 @@ func readDiskYaml(root string) (*diskYAML, error) {
 	}
 	defer f.Close()
 
-	if err := yaml.NewDecoder(f).Decode(&disk); err != nil {
+	dec := yaml.NewDecoder(f)
+	if err := dec.Decode(&disk); err != nil {
 		return nil, fmt.Errorf("cannot parse disk definitions from %q: %w", p, err)
 	}
 

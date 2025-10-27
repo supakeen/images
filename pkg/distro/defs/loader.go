@@ -12,7 +12,7 @@ import (
 	"sort"
 	"text/template"
 
-	"gopkg.in/yaml.v3"
+	"github.com/goccy/go-yaml"
 
 	"github.com/osbuild/images/data/distrodefs"
 	"github.com/osbuild/images/internal/common"
@@ -31,6 +31,12 @@ import (
 	"github.com/osbuild/images/pkg/rpmmd"
 	"github.com/osbuild/images/pkg/runner"
 )
+
+var defaultYamlOpts = []yaml.DecodeOption{
+	yaml.AllowDuplicateMapKey(),
+	yaml.DisallowUnknownField(),
+	yaml.UseJSONUnmarshaler(),
+}
 
 var (
 	ErrNoPartitionTableForImgType = errors.New("no partition table for image type")
@@ -165,8 +171,7 @@ func loadDistros() (*distrosYAML, error) {
 	}
 	defer f.Close()
 
-	decoder := yaml.NewDecoder(f)
-	decoder.KnownFields(true)
+	decoder := yaml.NewDecoder(f, defaultYamlOpts...)
 
 	var distros distrosYAML
 	if err := decoder.Decode(&distros); err != nil {
@@ -228,8 +233,7 @@ func NewDistroYAML(nameVer string) (*DistroYAML, error) {
 	defer f.Close()
 
 	var toplevel imageTypesYAML
-	decoder := yaml.NewDecoder(f)
-	decoder.KnownFields(true)
+	decoder := yaml.NewDecoder(f, defaultYamlOpts...)
 	if err := decoder.Decode(&toplevel); err != nil {
 		return nil, err
 	}
