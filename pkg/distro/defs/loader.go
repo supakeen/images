@@ -96,7 +96,7 @@ type DistroYAML struct {
 
 	imageTypes map[string]ImageTypeYAML
 	// distro wide default image config
-	imageConfig *distro.ImageConfig `yaml:"default"`
+	imageConfig *distroImageConfig `yaml:"image_config"`
 
 	// ignore the given image types
 	Conditions map[string]distroConditions `yaml:"conditions"`
@@ -119,7 +119,8 @@ func (d *DistroYAML) ImageTypes() map[string]ImageTypeYAML {
 //
 // Each ImageType gets this as their default ImageConfig.
 func (d *DistroYAML) ImageConfig() *distro.ImageConfig {
-	return d.imageConfig
+	// XXX directly in the loader and get rid of the method?
+	return d.imageConfig.For(d.ID)
 }
 
 func (d *DistroYAML) SkipImageType(imgTypeName, archName string) bool {
@@ -266,7 +267,6 @@ func NewDistroYAML(nameVer string) (*DistroYAML, error) {
 			foundDistro.imageTypes[name] = v
 		}
 	}
-	foundDistro.imageConfig = toplevel.ImageConfig.For(foundDistro.ID)
 
 	return foundDistro, nil
 }

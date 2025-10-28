@@ -12,6 +12,14 @@ distros:
     iso_label_tmpl: "{{.Product}}-{{.Distro.MajorVersion}}-{{.ISOLabel}}-{{.Arch}}"
     default_fs_type: "ext4"
     defs_path: fedora
+    image_config:
+      default:
+        default_oscap_datastream: "/usr/share/xml/scap/ssg/content/ssg-fedora-ds.xml"
+        hostname: "localhost.localdomain"
+        install_weak_deps: true
+        locale: "C.UTF-8"
+        machine_id_uninitialized: true
+        timezone: "UTC"
     runner: &fedora_runner
       name: org.osbuild.fedora44
       build_packages:
