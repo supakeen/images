@@ -94,7 +94,7 @@ type DistroYAML struct {
 
 	imageTypes map[string]ImageTypeYAML
 	// distro wide default image config
-	imageConfig *distro.ImageConfig `yaml:"default"`
+	RawImageConfig *distroImageConfig `yaml:"image_config"`
 
 	// ignore the given image types & override tweaks
 	Conditions map[string]distroConditions `yaml:"conditions"`
@@ -119,7 +119,11 @@ func (d *DistroYAML) ImageTypes() map[string]ImageTypeYAML {
 //
 // Each ImageType gets this as their default ImageConfig.
 func (d *DistroYAML) ImageConfig() *distro.ImageConfig {
-	return d.imageConfig
+	if d.RawImageConfig != nil {
+		return d.RawImageConfig.For(d.ID)
+	} else {
+		return &distro.ImageConfig{}
+	}
 }
 
 func (d *DistroYAML) SkipImageType(imgTypeName, archName string) bool {
@@ -294,7 +298,6 @@ func (d *DistroYAML) LoadImageTypes() error {
 			d.imageTypes[name] = v
 		}
 	}
-	d.imageConfig = toplevel.ImageConfig.For(d.ID)
 	return nil
 }
 
@@ -302,7 +305,6 @@ func (d *DistroYAML) LoadImageTypes() error {
 // family. Note that multiple distros may use the same image types,
 // e.g. centos/rhel
 type imageTypesYAML struct {
-	ImageConfig distroImageConfig        `yaml:"image_config,omitempty"`
 	ImageTypes  map[string]ImageTypeYAML `yaml:"image_types"`
 	Common      map[string]any           `yaml:".common,omitempty"`
 }
